@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+npm-debug.log
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env/*
+
+# Other build artifacts to ignore
+/build
+/.cache
+
+# Additional ignores
+dist/

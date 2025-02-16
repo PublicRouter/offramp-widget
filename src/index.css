@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* Default light mode */
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+/* Optional: you can also define a 'dark' class for manual dark mode toggling */
+.dark {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+}
