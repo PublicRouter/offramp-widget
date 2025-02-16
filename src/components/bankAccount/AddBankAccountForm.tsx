@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApi } from '../../context/ApiContext';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
-
+import Spinner from '../common/Spinner';
 interface AddBankAccountFormProps {
   onSubmit: (data: any) => void;
   onCancel: () => void;
@@ -121,7 +121,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -131,7 +131,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="pix_key"
                 value={formData.pix_key}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
           </>
@@ -147,7 +147,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -157,7 +157,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="beneficiary_name"
                 value={formData.beneficiary_name}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -167,7 +167,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="routing_number"
                 value={formData.routing_number}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -177,7 +177,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="account_number"
                 value={formData.account_number}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -186,7 +186,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="account_type"
                 value={formData.account_type}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               >
                 <option value="">Select Account Type</option>
                 <option value="checking">Checking</option>
@@ -199,7 +199,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="account_class"
                 value={formData.account_class}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               >
                 <option value="">Select Account Class</option>
                 <option value="individual">Individual</option>
@@ -219,7 +219,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             {/* Additional fields for 'wire' account type */}
@@ -230,7 +230,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="beneficiary_name"
                 value={formData.beneficiary_name}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -240,7 +240,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="routing_number"
                 value={formData.routing_number}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -250,7 +250,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="account_number"
                 value={formData.account_number}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -260,7 +260,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="address_line_1"
                 value={formData.address_line_1}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -270,7 +270,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -280,7 +280,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="state_province_region"
                 value={formData.state_province_region}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -290,7 +290,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -300,7 +300,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="postal_code"
                 value={formData.postal_code}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
 
@@ -318,7 +318,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -328,7 +328,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="beneficiary_name"
                 value={formData.beneficiary_name}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -337,7 +337,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="transfers_type"
                 value={formData.transfers_type}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               >
                 <option value="">Select Transfer Type</option>
                 <option value="CVU">CVU</option>
@@ -352,7 +352,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="transfers_account"
                 value={formData.transfers_account}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
           </>
@@ -368,7 +368,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -378,7 +378,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="beneficiary_name"
                 value={formData.beneficiary_name}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -388,7 +388,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="spei_protocol"
                 value={formData.spei_protocol}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -398,7 +398,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="spei_institution_code"
                 value={formData.spei_institution_code}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
             <label className="text-gray-600">
@@ -408,7 +408,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
                 name="spei_clabe"
                 value={formData.spei_clabe}
                 onChange={handleChange}
-                className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
               />
             </label>
           </>
@@ -428,7 +428,7 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-20 z-50">
-      <div className="w-[90vw] max-w-lg p-6 bg-white shadow-lg rounded-xl relative">
+      <div className="w-[90vw] max-w-[400px] p-6 bg-white shadow-lg rounded-xl relative">
         {/* Close button positioned absolutely */}
         <button
           onClick={onCancel}
@@ -441,13 +441,13 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
           Add Bank Account
         </h3>
 
-        <label className="text-gray-600 block">
+        <label className="text-gray-600 block px-2">
           Bank Account Type
           <select
             name="type"
             value={bankAccountType}
             onChange={handleSelectType}
-            className="w-full p-2 py-1 mt-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+            className="w-full p-2 py-[5px] my-1 mb-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
           >
             <option value="">Select Account Type</option>
             <option value="pix">PIX 🇧🇷 Brazil ~5 minutes</option>
@@ -468,10 +468,17 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
         <div className="flex justify-between mt-6">
           <button
             onClick={handleSubmit}
-            className="bg-gray-700 text-white p-2 rounded-md w-full hover:scale-[1.01] hover:bg-black"
+            className="bg-gray-900 text-white p-2 rounded-md w-full hover:scale-[1.01]"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+            {isSubmitting ? (
+              <div className='flex justify-center items-center'>
+                <Spinner />
+                Creating Account...
+              </div>
+            ) : (
+              'Submit'
+            )}
           </button>
         </div>
       </div>

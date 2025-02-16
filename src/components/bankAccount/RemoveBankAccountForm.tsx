@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApi } from '../../context/ApiContext';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
+import Spinner from '../common/Spinner';
 
 interface BankAccount {
   id: string;
@@ -88,11 +89,11 @@ const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-20 z-50">
-      <div className="w-[95vw] max-w-lg p-6 bg-white shadow-lg rounded-xl relative">
+      <div className="w-[95vw] max-w-[400px] p-6 bg-white shadow-lg rounded-xl relative">
         {/* Close button positioned absolutely */}
         <button
           onClick={onCancel}
-          className="absolute top-4 right-4 text-sm text-white bg-gray-400 hover:bg-gray-600 p-[.5px] rounded-full hover:scale-[1.01] hover:cursor-pointer "
+          className="absolute top-4 right-4 text-sm text-gray-600 hover:text-black p-[.5px] rounded-full hover:scale-[1.01] hover:cursor-pointer "
         >
           <IoIosCloseCircleOutline size={24} />
         </button>
@@ -121,7 +122,14 @@ const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
                 : 'bg-gray-300 hover:cursor-not-allowed'
             } text-white p-2 py-1 rounded-md mt-4 hover:cursor-pointer`}
           >
-            {isRemovingAccount ? 'Removing...' : 'Remove'}
+            {isRemovingAccount ? (
+              <div className="flex justify-center items-center">
+                <Spinner />
+                Removing...
+              </div>
+            ) : (
+              'Remove'
+            )}
           </button>
         </div>
       </div>

@@ -21,10 +21,10 @@ export function Widget() {
 
   const wrapPageInClose = (component: React.ReactNode) => {
     return (
-      <div className="flex flex-col items-end w-[95vw] max-w-[500px]">
+      <div className="flex flex-col items-end w-[95vw] max-w-[400px]">
         <button
           onClick={closeWidget}
-          className="text-white p-[.5px] rounded-full text-sm bg-gray-400 hover:bg-gray-600 hover:cursor-pointer relative top-8 right-2 hover:scale-[1.01]"
+          className="text-gray-600 hover:text-black p-[.5px] rounded-full text-sm hover:cursor-pointer relative top-10 right-3 hover:scale-[1.01]"
         >
           <IoIosCloseCircleOutline size={24} />
         </button>
@@ -74,7 +74,7 @@ export function Widget() {
   const pages: Record<'start' | 'existing' | 'create', React.ReactNode> = {
     start: <Start onClick={handleStartClick} loading={loading} />,
     existing: wrapPageInClose(<ExistingReceiver />),
-    create: wrapPageInClose(<CreateReceiver />)
+    create: wrapPageInClose(<CreateReceiver setRoute={setRoute} />) // Pass setRoute as a prop
   };
 
   // Conditionally render based on route
@@ -83,7 +83,7 @@ export function Widget() {
   }
 
   return (
-    <div className="offramp-widget bg-background">
+    <div className="offramp-widget root">
       {pages[route]} {/* Render the component based on the current route */}
     </div>
   );
