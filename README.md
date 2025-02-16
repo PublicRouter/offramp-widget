@@ -3,11 +3,15 @@
 
 A reusable UI widget for **BlindPay** integration. The Offramp Widget allows you to easily integrate crypto-to-fiat off-ramping functionality into your React application. This widget is designed to be lightweight and easily configurable.
 
-## Demo
-<video controls style="max-width: 500px; max-height: 500px; display: block;">
-  <source src="https://res.cloudinary.com/dw8cdzxiu/video/upload/v1739686789/Screen_Recording_2025-02-16_at_12.17.27_AM_viqvjt.mov" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+## Preview
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687285/Screenshot_2025-02-16_at_12.27.59_AM_rxuqwo.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687306/Screenshot_2025-02-16_at_12.28.21_AM_gcfnyt.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687337/Screenshot_2025-02-16_at_12.28.52_AM_acfqwv.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687353/Screenshot_2025-02-16_at_12.29.09_AM_ne3lhy.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687380/Screenshot_2025-02-16_at_12.29.35_AM_zqgrlq.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687464/Screenshot_2025-02-16_at_12.31.01_AM_zg7zp4.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
+
+
 
 
 ## Features
