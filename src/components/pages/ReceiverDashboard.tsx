@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useGlobalContext } from '../../../context/GlobalContext';
-import { useApi } from '../../../context/ApiContext';
-import Display from '../../bankAccount/Display';
-import AddBankAccountForm from '../../bankAccount/AddBankAccountForm';
-import RemoveBankAccountForm from '../../bankAccount/RemoveBankAccountForm';
+import { useState, useEffect } from 'react';
+import { useGlobalContext } from '../../context/GlobalContext';
+import { useApi } from '../../context/ApiContext';
+import BankAccountView from '../BankAccountView';
+import AddBankAccountForm from './AddBankAccountForm';
+import RemoveBankAccountForm from './RemoveBankAccountForm';
+import BankAccountDetail from './BankAccountDetail';
+import Spinner from '../common/Spinner';
 
-export default function ExistingReceiver() {
+const ReceiverDashboard = () => {
   const { data } = useGlobalContext();
   const { api } = useApi();
   const [bankAccounts, setBankAccounts] = useState<any[]>([]);
@@ -13,6 +15,10 @@ export default function ExistingReceiver() {
   const [error, setError] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  const [selectedBankAccount, setSelectedBankAccount] = useState<any | null>(
+    null
+  );
+  const [totalAmount, setTotalAmount] = useState<number>(0);
 
   const fetchBankAccounts = async () => {
     setLoading(true);
@@ -45,6 +51,13 @@ export default function ExistingReceiver() {
   const handleCancel = () => {
     setIsAdding(false);
     setIsRemoving(false);
+    setSelectedBankAccount(null); // Reset the selected bank account
+  };
+
+  const handleBankAccountClick = (bankAccount: any) => {
+    setSelectedBankAccount(bankAccount);
+
+    setTotalAmount(500); // !! hardcoded example (temporary)
   };
 
   return (
@@ -60,18 +73,24 @@ export default function ExistingReceiver() {
       </h3>
 
       {loading && (
-        <p className="text-center text-gray-500">Loading bank accounts...</p>
+        <div className="text-center text-gray-500">
+          <div className="flex justify-center items-center">
+            <Spinner />
+            Loading...
+          </div>
+        </div>
       )}
       {error && <p className="text-center text-red-500">{error}</p>}
 
-      <Display
+      <BankAccountView
         loading={loading}
         bankAccounts={bankAccounts}
         onAddClick={handleAddButtonClick}
         onRemoveClick={handleRemoveButtonClick}
+        onBankAccountClick={handleBankAccountClick}
       />
 
-      {/* Conditional rendering of forms */}
+      {/* Conditional rendering of forms and details */}
       {isAdding && (
         <AddBankAccountForm
           receiverId={data.receiver.id}
@@ -87,6 +106,16 @@ export default function ExistingReceiver() {
           onCancel={handleCancel}
         />
       )}
+
+      {selectedBankAccount && (
+        <BankAccountDetail
+          bankAccount={selectedBankAccount}
+          totalAmount={totalAmount}
+          onClose={handleCancel}
+        />
+      )}
     </div>
   );
-}
+};
+
+export default ReceiverDashboard;

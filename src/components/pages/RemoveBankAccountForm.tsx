@@ -1,3 +1,5 @@
+// /src/components/pages/RemoveBankAccountForm.tsx
+
 import React, { useState } from 'react';
 import { useApi } from '../../context/ApiContext';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
@@ -62,7 +64,7 @@ const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
   const handleRemove = async () => {
     if (!selectedBankAccountName) return; // Make sure there's a name
 
-    setIsRemovingAccount(true); // Set loading state to true
+    setIsRemovingAccount(true);
     const matchingAccount = bankAccounts.find(
       (account) => account.name === selectedBankAccountName
     );
@@ -82,7 +84,7 @@ const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
       } catch (err) {
         console.error(err);
       } finally {
-        setIsRemovingAccount(false); // Set loading state back to false
+        setIsRemovingAccount(false);
       }
     }
   };

@@ -1,13 +1,15 @@
+// /src/components/index.tsx
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useApi } from '../context/ApiContext';
 import { useGlobalContext } from '../context/GlobalContext';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
+import Spinner from './common/Spinner';
 
 // PAGES
-import Start from './pages/Start';
-import { ExistingReceiver, CreateReceiver } from './pages/receiver';
+import { CreateReceiver, ReceiverDashboard, StartButton } from './pages';
 
-export function Widget() {
+const Widget = () => {
   const { api, initialized } = useApi();
   const { data, setData } = useGlobalContext();
   const [loading, setLoading] = useState(false);
@@ -72,14 +74,18 @@ export function Widget() {
 
   // Centralized page mapping
   const pages: Record<'start' | 'existing' | 'create', React.ReactNode> = {
-    start: <Start onClick={handleStartClick} loading={loading} />,
-    existing: wrapPageInClose(<ExistingReceiver />),
-    create: wrapPageInClose(<CreateReceiver setRoute={setRoute} />) // Pass setRoute as a prop
+    start: <StartButton onClick={handleStartClick} loading={loading} />,
+    existing: wrapPageInClose(<ReceiverDashboard />),
+    create: wrapPageInClose(<CreateReceiver setRoute={setRoute} />)
   };
 
-  // Conditionally render based on route
   if (!initialized) {
-    return <p>Initializing...</p>;
+      return (
+          <div className='flex justify-center items-center'>
+            <Spinner />
+            Initializing...
+          </div>
+      );
   }
 
   return (
@@ -89,4 +95,4 @@ export function Widget() {
   );
 }
 
-export default Widget;
+export { Widget };

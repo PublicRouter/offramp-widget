@@ -1,8 +1,11 @@
 // /src/index.tsx (main file that someone consuming this npm package would import)
 
+//! when using widget -
+//! 1. withdraw amount should be in 
+
 import { GlobalProvider } from './context/GlobalContext';
 import { ApiProvider } from './context/ApiContext';
-import Widget from './components/Widget';
+import { Widget } from './components';
 import './index.css';
 
 interface OfframpWidgetProps {
@@ -15,7 +18,6 @@ interface OfframpWidgetProps {
 function OfframpWidget({ apiKey, instanceId, baseUrl }: OfframpWidgetProps) {
   //!temporary, the consuming application should set authdEmail themselves after actually authenticating a user to login with email(privy OTP, etc)
   sessionStorage.setItem('authdEmail', 'test@proton.me');
-
   return (
     <GlobalProvider>
       {' '}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CiCirclePlus } from 'react-icons/ci';
-import { CiCircleMinus } from 'react-icons/ci';
+import { CiCirclePlus, CiCircleMinus } from 'react-icons/ci';
 
 interface BankAccount {
   id: string;
@@ -29,27 +28,21 @@ interface BankAccount {
   };
 }
 
-interface DisplayProps {
+interface BankAccountViewProps {
   bankAccounts: BankAccount[];
   onAddClick: () => void;
   onRemoveClick: () => void;
   loading: boolean;
+  onBankAccountClick: (bankAccount: any) => void;
 }
 
-const Display: React.FC<DisplayProps> = ({
+const BankAccountView: React.FC<BankAccountViewProps> = ({
   bankAccounts,
   onAddClick,
   onRemoveClick,
-  loading
+  loading,
+  onBankAccountClick
 }) => {
-  const [expandedAccountId, setExpandedAccountId] = useState<string | null>(
-    null
-  );
-
-  const toggleAccountDetails = (accountId: string) => {
-    setExpandedAccountId((prevId) => (prevId === accountId ? null : accountId));
-  };
-
   return (
     <section className="space-y-6 w-full">
       {!loading && bankAccounts && bankAccounts.length === 0 && (
@@ -62,12 +55,10 @@ const Display: React.FC<DisplayProps> = ({
           {bankAccounts.map((account) => (
             <div
               key={account.id}
-              className="bg-white rounded-lg shadow-md p-4 border"
+              className="bg-white rounded-lg shadow-md p-4 border cursor-pointer"
+              onClick={() => onBankAccountClick(account)}
             >
-              <div
-                className="flex justify-between items-start cursor-pointer"
-                onClick={() => toggleAccountDetails(account.id)}
-              >
+              <div className="flex justify-between items-start">
                 <div>
                   <strong className="text-md text-gray-700">
                     {account.name}
@@ -79,40 +70,13 @@ const Display: React.FC<DisplayProps> = ({
                 <button
                   className="text-red-700 hover:text-red-400 px-2 py-1 rounded-md font-semibold text-md hover:cursor-pointer hover:scale-[1.05]"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent triggering the toggle
+                    e.stopPropagation();
                     onRemoveClick();
                   }}
                 >
                   <CiCircleMinus size={30} />
                 </button>
               </div>
-
-              {expandedAccountId === account.id && (
-                <div className="mt-4 text-sm text-gray-600">
-                  {account.type === 'pix' && (
-                    <p className="mb-2">
-                      <strong>Pix Key:</strong> {account.pix_key}
-                    </p>
-                  )}
-                  {account.account_type && (
-                    <p className="mb-2">
-                      <strong>Account Type:</strong> {account.account_type}
-                    </p>
-                  )}
-                  {account.routing_number && (
-                    <p className="mb-2">
-                      <strong>Routing Number:</strong> {account.routing_number}
-                    </p>
-                  )}
-                  {account.beneficiary_name && (
-                    <p className="mb-2">
-                      <strong>Beneficiary Name:</strong>{' '}
-                      {account.beneficiary_name}
-                    </p>
-                  )}
-                  {/* Add more fields as needed */}
-                </div>
-              )}
             </div>
           ))}
         </div>
@@ -131,4 +95,4 @@ const Display: React.FC<DisplayProps> = ({
   );
 };
 
-export default Display;
+export default BankAccountView;

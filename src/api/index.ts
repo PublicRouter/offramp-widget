@@ -108,6 +108,25 @@ class Api {
       bankAccountId
     });
   }
+
+  public async getQuote(bankAccountId: string, requestAmount: number) {
+    const url = `${this.baseUrl}/quotes/create`;
+
+    const payload = {
+      bank_account_id: bankAccountId,
+      currency_type: 'sender',
+      cover_fees: false,
+      request_amount: requestAmount,
+      network: 'base_sepolia',
+      token: 'USDB'
+    };
+    console.log('payload: ', payload);
+
+    return await this.makeApiRequest<any>(url, 'POST', {
+      instanceId: this.instanceId,
+      quoteData: payload
+    });
+  }
 }
 
 export default Api;

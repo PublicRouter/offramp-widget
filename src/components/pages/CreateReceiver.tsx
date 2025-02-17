@@ -1,9 +1,9 @@
-'use client';
+// /src/components/pages/CreateReceiver.tsx
 
-import { useState, useEffect } from 'react';
-import { useApi } from '../../../context/ApiContext'; // Import the useApi hook
-import { useGlobalContext } from '../../../context/GlobalContext'; // Import the global context hook
-import Spinner from '../../common/Spinner';
+import { useState } from 'react';
+import { useApi } from '../../context/ApiContext';
+import { useGlobalContext } from '../../context/GlobalContext';
+import Spinner from '../common/Spinner';
 
 type FormData = {
   country: string;
@@ -32,7 +32,7 @@ type CreateReceiverProps = {
   setRoute: (route: 'start' | 'existing' | 'create') => void;
 };
 
-export default function CreateReceiver({ setRoute }: CreateReceiverProps) {
+const CreateReceiver = ({ setRoute }: CreateReceiverProps) => {
   const { api, initialized } = useApi();
   const { data, setData } = useGlobalContext();
   const authdEmail = sessionStorage.getItem('authdEmail');
@@ -313,4 +313,6 @@ export default function CreateReceiver({ setRoute }: CreateReceiverProps) {
       {message && <p className="mt-4 text-center text-red-600">{message}</p>}
     </div>
   );
-}
+};
+
+export default CreateReceiver;

@@ -10,7 +10,7 @@ A reusable UI widget for **BlindPay** integration. The Offramp Widget allows you
 <img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687353/Screenshot_2025-02-16_at_12.29.09_AM_ne3lhy.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
 <img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687380/Screenshot_2025-02-16_at_12.29.35_AM_zqgrlq.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
 <img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687464/Screenshot_2025-02-16_at_12.31.01_AM_zg7zp4.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739824812/Screenshot_2025-02-17_at_2.36.27_PM_aonhho.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
 
 
 

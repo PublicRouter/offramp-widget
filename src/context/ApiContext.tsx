@@ -1,11 +1,11 @@
-import React, {
+import {
   createContext,
   useContext,
   ReactNode,
   useState,
   useEffect
 } from 'react';
-import Api from '../api'; // Import the Api class
+import Api from '../api';
 
 // Define the context type
 interface ApiContextType {
@@ -38,7 +38,7 @@ export const ApiProvider = ({
       setApi(apiInstance);
       setInitialized(true); // Once the API is set, mark as initialized
     }
-  }, [baseUrl, instanceId, apiKey, api]); // This effect runs only once on initial mount
+  }, [baseUrl, instanceId, apiKey, api]);
 
   return (
     <ApiContext.Provider value={{ api, initialized }}>
