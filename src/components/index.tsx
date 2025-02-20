@@ -35,10 +35,11 @@ const Widget = () => {
     );
   };
 
+
   useEffect(() => {
     if (!initialized || fetchCalled.current) return; // Avoid running if already initialized or if fetch is called
 
-    const authdEmail = sessionStorage.getItem('authdEmail');
+    const authdEmail = localStorage.getItem('authdEmail');
 
     if (!authdEmail || data.receiver) {
       return; // If no `authdEmail` is found or receiver data exists, skip fetching

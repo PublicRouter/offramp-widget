@@ -75,10 +75,15 @@ class Api {
 
   // Function to create a receiver
   public async createReceiver(receiverData: any) {
-    const url = `${this.baseUrl}/receiver/create`; // Example URL
+      const url = `${this.baseUrl}/receiver/create`; // Example URL
+      const manipulatedReceiverData = {
+          ...receiverData,
+          type: "individual",
+          kyc_type: receiverData.country === "US" ? "standard" : "light",
+      }
     return await this.makeApiRequest<any>(url, 'POST', {
       instanceId: this.instanceId,
-      receiverData
+      receiverData: manipulatedReceiverData
     });
   }
 
@@ -127,6 +132,16 @@ class Api {
       quoteData: payload
     });
   }
+
+    public async getWalletBalance(walletAddress: string) {
+        const url = `${this.baseUrl}/wallet/balance`;
+
+        return await this.makeApiRequest<any>(url, 'POST', {
+            walletAddress
+        });
+
+
+    }
 }
 
 export default Api;

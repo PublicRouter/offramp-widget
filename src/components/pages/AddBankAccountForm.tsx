@@ -20,35 +20,35 @@ const AddBankAccountForm: React.FC<AddBankAccountFormProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-const [formData, setFormData] = useState<Record<string, string>>({
-  name: '',
-  type: '',
-  account_number: '',
-  account_type: '',
-  account_class: '',
-  address_line_1: '',
-  address_line_2: '',
-  city: '',
-  state_province_region: '',
-  country: '',
-  postal_code: '',
-  bank_name: '',
-  routing_number: '',
-  beneficiary_name: '',
-  pix_key: '',
-  spei_protocol: '',
-  spei_institution_code: '',
-  spei_clabe: '',
-  transfers_type: '',
-  transfers_account: '',
-  ach_cop_beneficiary_first_name: '',
-  ach_cop_beneficiary_last_name: '',
-  ach_cop_document_id: '',
-  ach_cop_document_type: '',
-  ach_cop_email: '',
-  ach_cop_bank_code: '',
-  ach_cop_bank_account: ''
-});
+  const [formData, setFormData] = useState<Record<string, string>>({
+    name: '',
+    type: '',
+    account_number: '',
+    account_type: '',
+    account_class: '',
+    address_line_1: '',
+    address_line_2: '',
+    city: '',
+    state_province_region: '',
+    country: '',
+    postal_code: '',
+    bank_name: '',
+    routing_number: '',
+    beneficiary_name: '',
+    pix_key: '',
+    spei_protocol: '',
+    spei_institution_code: '',
+    spei_clabe: '',
+    transfers_type: '',
+    transfers_account: '',
+    ach_cop_beneficiary_first_name: '',
+    ach_cop_beneficiary_last_name: '',
+    ach_cop_document_id: '',
+    ach_cop_document_type: '',
+    ach_cop_email: '',
+    ach_cop_bank_code: '',
+    ach_cop_bank_account: ''
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -95,7 +95,7 @@ const [formData, setFormData] = useState<Record<string, string>>({
 
     const filteredData = Object.fromEntries(
       Object.entries(formData).filter(
-        ([key, value]) => value !== '' && value !== undefined
+        ([, value]) => value !== '' && value !== undefined
       )
     );
 
@@ -121,18 +121,49 @@ const [formData, setFormData] = useState<Record<string, string>>({
     const fields = accountFieldsMapping[bankAccountType] || [];
 
     return fields.map((field) => (
-      <div key={field.name}>
+      <div key={field.name} className="mb-3">
         <label className="text-gray-600">
           {field.label}
           {field.required ? (
-            <input
-              type="text"
+            field.options ? (
+              <select
+                name={field.name}
+                value={formData[field.name]}
+                onChange={handleChange}
+                required
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+              >
+                <option value="">Select {field.label}</option>
+                {field.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                name={field.name}
+                value={formData[field.name]}
+                onChange={handleChange}
+                required
+                className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+              />
+            )
+          ) : field.options ? (
+            <select
               name={field.name}
               value={formData[field.name]}
               onChange={handleChange}
-              required
               className="w-full p-2 py-[5px] my-1 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
-            />
+            >
+              <option value="">Select {field.label}</option>
+              {field.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           ) : (
             <input
               type="text"

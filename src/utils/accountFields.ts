@@ -1,9 +1,9 @@
-// src/utils/accountFields.ts
-
 interface AccountField {
   name: string;
   label: string;
   required: boolean;
+  // Add an optional options property for fields with a fixed set of values.
+  options?: { value: string; label: string }[];
 }
 
 export const accountFieldsMapping: Record<string, AccountField[]> = {
@@ -68,7 +68,16 @@ export const accountFieldsMapping: Record<string, AccountField[]> = {
   transfers_bitso: [
     { name: 'name', label: 'Bank Account Name', required: true },
     { name: 'beneficiary_name', label: 'Beneficiary Name', required: true },
-    { name: 'transfers_type', label: 'Transfer Type', required: true },
+    {
+      name: 'transfers_type',
+      label: 'Transfer Type',
+      required: true,
+      options: [
+        { value: 'CVU', label: 'CVU' },
+        { value: 'CBU', label: 'CBU' },
+        { value: 'ALIAS', label: 'ALIAS' }
+      ]
+    },
     { name: 'transfers_account', label: 'Transfer Account', required: true }
   ]
 };

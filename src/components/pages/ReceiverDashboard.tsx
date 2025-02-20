@@ -19,6 +19,7 @@ const ReceiverDashboard = () => {
     null
   );
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [walletBalance, setWalletBalance] = useState<string>('0');
 
   const fetchBankAccounts = async () => {
     setLoading(true);
@@ -33,10 +34,36 @@ const ReceiverDashboard = () => {
     }
   };
 
+  // Fetch the USDB wallet balance from our backend endpoint.
+  const fetchWalletBalance = async (smartAddress: string) => {
+    try {
+      // Replace process.env.REACT_APP_SEPOLIA_RPC_URL with your actual RPC provider URL
+      const data = await api?.getWalletBalance(smartAddress);
+
+        // const data = await response.json();
+        console.log("wallet balance data: ", data)
+      if (data.balance) {
+        setWalletBalance(data.balance);
+      } else if (data.error) {
+        console.error('Error fetching wallet balance:', data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching wallet balance:', error);
+    }
+  };
+
   useEffect(() => {
     if (!data.receiver) return;
     fetchBankAccounts();
   }, [api, data.receiver]);
+
+  // On mount, fetch the wallet balance using the smart wallet address from localStorage.
+  useEffect(() => {
+    const smartAddress = localStorage.getItem('smartAddress');
+    if (smartAddress) {
+      fetchWalletBalance(smartAddress);
+    }
+  }, []);
 
   const handleAddButtonClick = () => {
     setIsAdding(true);
@@ -56,8 +83,7 @@ const ReceiverDashboard = () => {
 
   const handleBankAccountClick = (bankAccount: any) => {
     setSelectedBankAccount(bankAccount);
-
-    setTotalAmount(500); // !! hardcoded example (temporary)
+    setTotalAmount(20); // !! hardcoded example (temporary)
   };
 
   return (
@@ -66,6 +92,9 @@ const ReceiverDashboard = () => {
         <p className="text-gray-600">Welcome back,</p>
         <p className="text-3xl font-semibold text-gray-800">
           {data.receiver.first_name} {data.receiver.last_name}
+        </p>
+        <p className="text-gray-600 mt-2">
+          <strong>Balance:</strong> {walletBalance}
         </p>
       </header>
       <h3 className="text-xl text-center text-gray-600 mb-3">

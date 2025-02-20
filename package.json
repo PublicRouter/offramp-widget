@@ -21,9 +21,11 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.2",
     "react-icons": "^5.4.0",
-    "tailwindcss": "^4.0.6"
+    "tailwindcss": "^4.0.6",
+    "viem": "^2.23.3"
   },
   "peerDependencies": {
+    "blindpay": "^1.0.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
@@ -34,7 +36,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.34.1",
-    "typescript": "^4.4.0"
+    "typescript": "^5.0.4"
   },
   "keywords": [
     "react",
