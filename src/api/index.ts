@@ -1,147 +1,131 @@
-// /src/api/index.ts
+import type {
+  Receiver,
+  BankAccount,
+  ApiResponse,
+  Quote,
+  WalletBalanceResponse,
+} from '../types';
 
 class Api {
-  private static instance: Api | null = null;
   private baseUrl: string;
   private instanceId: string;
   private apiKey: string;
 
-  private constructor(baseUrl: string, instanceId: string, apiKey: string) {
+  constructor(baseUrl: string, instanceId: string, apiKey: string) {
     this.baseUrl = baseUrl;
     this.instanceId = instanceId;
-    this.apiKey = apiKey; // Store the apiKey
+    this.apiKey = apiKey;
   }
 
-  // Method to get the single instance of Api
-  public static getInstance(
-    baseUrl: string,
-    instanceId: string,
-    apiKey: string
-  ): Api {
-    if (!Api.instance) {
-      Api.instance = new Api(baseUrl, instanceId, apiKey);
-    }
-    return Api.instance;
-  }
-
-  // Utility function to make API requests
-  private async makeApiRequest<T>(
+  private async request<T>(
     url: string,
     method: string,
     body?: object
   ): Promise<T> {
-    const config: RequestInit = {
+    const response = await fetch(url, {
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.apiKey}` // API key in the Authorization header
+        Authorization: `Bearer ${this.apiKey}`,
       },
-      body: body ? JSON.stringify(body) : undefined
-    };
+      body: body ? JSON.stringify(body) : undefined,
+    });
 
-    const response = await fetch(url, config);
     if (!response.ok) {
       throw new Error(`Error: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    return response.json();
   }
 
-  // Function to fetch members for a specific instance
-  public async getMembers() {
+  public async getMembers(): Promise<ApiResponse<unknown>> {
     const url = `${this.baseUrl}/instance/members`;
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId
-    });
+    return this.request(url, 'POST', { instanceId: this.instanceId });
   }
 
-  // Function to fetch mreceivers for a specific instance
-  public async getReceivers() {
+  public async getReceivers(): Promise<ApiResponse<Receiver[]>> {
     const url = `${this.baseUrl}/receiver/get`;
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId
-    });
+    return this.request(url, 'POST', { instanceId: this.instanceId });
   }
 
-  // Function to fetch receivers for a specific instance
-  public async getReceiverByEmail(email: string) {
+  public async getReceiverByEmail(email: string): Promise<Receiver> {
     const url = `${this.baseUrl}/receiver/getByEmail`;
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId,
-      email
-    });
+    return this.request(url, 'POST', { instanceId: this.instanceId, email });
   }
 
-  // Function to create a receiver
-  public async createReceiver(receiverData: any) {
-      const url = `${this.baseUrl}/receiver/create`; // Example URL
-      const manipulatedReceiverData = {
-          ...receiverData,
-          type: "individual",
-          kyc_type: receiverData.country === "US" ? "standard" : "light",
-      }
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId,
-      receiverData: manipulatedReceiverData
-    });
-  }
-
-  // Function to fetch members for a specific instance
-  public async getBankAccounts(receiverId: string) {
-    const url = `${this.baseUrl}/bank-accounts/get`;
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId,
-      receiverId
-    });
-  }
-
-  public async createBankAccount(receiverId: string, bankAccountData: any) {
-    const url = `${this.baseUrl}/bank-accounts/create`;
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId,
-      receiverId,
-      bankAccountData
-    });
-  }
-
-  public async deleteBankAccount(receiverId: string, bankAccountId: string) {
-    const url = `${this.baseUrl}/bank-accounts/delete`;
-    return await this.makeApiRequest<any>(url, 'POST', {
-      instanceId: this.instanceId,
-      receiverId,
-      bankAccountId
-    });
-  }
-
-  public async getQuote(bankAccountId: string, requestAmount: number) {
-    const url = `${this.baseUrl}/quotes/create`;
-
+  public async createReceiver(
+    receiverData: Record<string, unknown>
+  ): Promise<ApiResponse<Receiver>> {
+    const url = `${this.baseUrl}/receiver/create`;
     const payload = {
-      bank_account_id: bankAccountId,
-      currency_type: 'sender',
-      cover_fees: false,
-      request_amount: requestAmount,
-      network: 'base_sepolia',
-      token: 'USDB'
+      ...receiverData,
+      type: 'individual',
+      kyc_type: receiverData.country === 'US' ? 'standard' : 'light',
     };
-    console.log('payload: ', payload);
-
-    return await this.makeApiRequest<any>(url, 'POST', {
+    return this.request(url, 'POST', {
       instanceId: this.instanceId,
-      quoteData: payload
+      receiverData: payload,
     });
   }
 
-    public async getWalletBalance(walletAddress: string) {
-        const url = `${this.baseUrl}/wallet/balance`;
+  public async getBankAccounts(
+    receiverId: string
+  ): Promise<ApiResponse<BankAccount[]>> {
+    const url = `${this.baseUrl}/bank-accounts/get`;
+    return this.request(url, 'POST', {
+      instanceId: this.instanceId,
+      receiverId,
+    });
+  }
 
-        return await this.makeApiRequest<any>(url, 'POST', {
-            walletAddress
-        });
+  public async createBankAccount(
+    receiverId: string,
+    bankAccountData: Record<string, string>
+  ): Promise<ApiResponse<BankAccount>> {
+    const url = `${this.baseUrl}/bank-accounts/create`;
+    return this.request(url, 'POST', {
+      instanceId: this.instanceId,
+      receiverId,
+      bankAccountData,
+    });
+  }
 
+  public async deleteBankAccount(
+    receiverId: string,
+    bankAccountId: string
+  ): Promise<ApiResponse<null>> {
+    const url = `${this.baseUrl}/bank-accounts/delete`;
+    return this.request(url, 'POST', {
+      instanceId: this.instanceId,
+      receiverId,
+      bankAccountId,
+    });
+  }
 
-    }
+  public async getQuote(
+    bankAccountId: string,
+    requestAmount: number
+  ): Promise<ApiResponse<Quote>> {
+    const url = `${this.baseUrl}/quotes/create`;
+    return this.request(url, 'POST', {
+      instanceId: this.instanceId,
+      quoteData: {
+        bank_account_id: bankAccountId,
+        currency_type: 'sender',
+        cover_fees: false,
+        request_amount: requestAmount,
+        network: 'base_sepolia',
+        token: 'USDB',
+      },
+    });
+  }
+
+  public async getWalletBalance(
+    walletAddress: string
+  ): Promise<WalletBalanceResponse> {
+    const url = `${this.baseUrl}/wallet/balance`;
+    return this.request(url, 'POST', { walletAddress });
+  }
 }
 
 export default Api;

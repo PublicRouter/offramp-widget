@@ -1,68 +1,35 @@
-// /src/components/pages/RemoveBankAccountForm.tsx
-
-import React, { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { useApi } from '../../context/ApiContext';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import Spinner from '../common/Spinner';
-
-interface BankAccount {
-  id: string;
-  type: string;
-  name: string;
-  pix_key: string | null;
-  beneficiary_name: string | null;
-  routing_number: string | null;
-  account_number: string | null;
-  account_type: string | null;
-  account_class: string | null;
-  address_line_1: string | null;
-  address_line_2: string | null;
-  city: string | null;
-  state_province_region: string | null;
-  country: string | null;
-  postal_code: string | null;
-  blockchain_address: {
-    sepolia: string | null;
-    arbitrum_sepolia: string | null;
-    base_sepolia: string | null;
-    polygon_amoy: string | null;
-    base: string | null;
-    arbitrum: string | null;
-    polygon: string | null;
-  };
-}
+import type { BankAccount } from '../../types';
 
 interface RemoveBankAccountFormProps {
   receiverId: string;
   bankAccounts: BankAccount[];
-  onSubmit: () => void; // Callback to refetch or update the bank accounts list
-  onCancel: () => void; // Callback to close the form
+  onSubmit: () => void;
+  onCancel: () => void;
 }
 
-const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
+const RemoveBankAccountForm = ({
   receiverId,
   bankAccounts,
   onSubmit,
-  onCancel
-}) => {
+  onCancel,
+}: RemoveBankAccountFormProps) => {
   const [selectedBankAccountName, setSelectedBankAccountName] = useState('');
   const [isRemoveEnabled, setIsRemoveEnabled] = useState(false);
   const [isRemovingAccount, setIsRemovingAccount] = useState(false);
   const { api } = useApi();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setSelectedBankAccountName(name);
-
-    // Enable remove button if bank account name matches
-    const matchingAccount = bankAccounts.find(
-      (account) => account.name === name
-    );
-    setIsRemoveEnabled(!!matchingAccount);
+    setIsRemoveEnabled(bankAccounts.some((account) => account.name === name));
   };
 
   const handleRemove = async () => {
-    if (!selectedBankAccountName) return; // Make sure there's a name
+    if (!selectedBankAccountName) return;
 
     setIsRemovingAccount(true);
     const matchingAccount = bankAccounts.find(
@@ -71,15 +38,10 @@ const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
 
     if (matchingAccount) {
       try {
-        const response = await api?.deleteBankAccount(
-          receiverId,
-          matchingAccount.id
-        );
-        if (response.error == null) {
-          onSubmit(); // Trigger refetch or state update in parent
-          onCancel(); // Close the form after successful deletion
-        } else {
-          console.error('Failed to delete account');
+        const response = await api?.deleteBankAccount(receiverId, matchingAccount.id);
+        if (response?.error == null) {
+          onSubmit();
+          onCancel();
         }
       } catch (err) {
         console.error(err);
@@ -92,17 +54,14 @@ const RemoveBankAccountForm: React.FC<RemoveBankAccountFormProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-20 z-50">
       <div className="w-[95vw] max-w-[400px] p-6 bg-white shadow-lg rounded-xl relative">
-        {/* Close button positioned absolutely */}
         <button
           onClick={onCancel}
-          className="absolute top-4 right-4 text-sm text-gray-600 hover:text-black p-[.5px] rounded-full hover:scale-[1.01] hover:cursor-pointer "
+          className="absolute top-4 right-4 text-sm text-gray-600 hover:text-black p-[.5px] rounded-full hover:scale-[1.01] hover:cursor-pointer"
         >
           <IoIosCloseCircleOutline size={24} />
         </button>
 
-        <h3 className="text-xl font-semibold text-gray-700 mb-4">
-          Remove Bank Account
-        </h3>
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">Remove Bank Account</h3>
 
         <label className="text-gray-600 text-sm tracking-tighter">
           Enter exact case sensitive bank account name to remove. <br />

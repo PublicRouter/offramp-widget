@@ -1,6 +1,3 @@
-// /src/components/pages/StartButton.tsx
-
-import React from 'react';
 import Spinner from '../common/Spinner';
 
 interface StartButtonProps {
@@ -8,7 +5,7 @@ interface StartButtonProps {
   loading: boolean;
 }
 
-const StartButton: React.FC<StartButtonProps> = ({ onClick, loading }) => {
+const StartButton = ({ onClick, loading }: StartButtonProps) => {
   return (
     <div>
       <button
@@ -24,7 +21,6 @@ const StartButton: React.FC<StartButtonProps> = ({ onClick, loading }) => {
         ) : (
           'Withdraw To Bank'
         )}
-        {/* Show 'Initializing...' when loading is true */}
       </button>
     </div>
   );

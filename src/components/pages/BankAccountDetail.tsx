@@ -1,66 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import Spinner from '../common/Spinner';
 import { accountFieldsMapping } from '../../utils/accountFields';
 import { useApi } from '../../context/ApiContext';
 import { getBankAccountDetails } from '../../utils/bankAccountMapping';
 import ConfirmWithdrawal from './ConfirmWithdraw';
+import type { BankAccount, Quote } from '../../types';
 
 interface BankAccountDetailProps {
-  bankAccount: any;
-  totalAmount: string | number;
-  onClose: () => void; // Called to return to the dashboard
+  bankAccount: BankAccount;
+  totalAmount: number;
+  onClose: () => void;
 }
 
-const BankAccountDetail: React.FC<BankAccountDetailProps> = ({
-  bankAccount,
-  totalAmount,
-  onClose
-}) => {
+const BankAccountDetail = ({ bankAccount, totalAmount, onClose }: BankAccountDetailProps) => {
   const { api } = useApi();
-  const [loading, setLoading] = useState(true);
-  const [quote, setQuote] = useState<any>(null);
+  const [quote, setQuote] = useState<Quote | null>(null);
   const [quoteLoading, setQuoteLoading] = useState(true);
   const [quoteError, setQuoteError] = useState<string | null>(null);
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
-  // New state to control the ConfirmWithdrawal overlay
   const [showConfirmOverlay, setShowConfirmOverlay] = useState(false);
 
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const amountAsNumber =
-          typeof totalAmount === 'string'
-            ? parseFloat(totalAmount)
-            : totalAmount;
-
-        if (isNaN(amountAsNumber)) {
+        if (isNaN(totalAmount)) {
           throw new Error('Invalid amount value');
         }
 
-        const formattedAmount = Math.round(amountAsNumber * 100);
-        const quoteData = await api?.getQuote(bankAccount.id, formattedAmount);
+        const formattedAmount = Math.round(totalAmount * 100);
+        const quoteResponse = await api?.getQuote(bankAccount.id, formattedAmount);
 
-        if (quoteData?.error?.message) {
-          setQuoteError(quoteData.error.message);
-        } else {
-          setQuote(quoteData.data);
+        if (quoteResponse?.error?.message) {
+          setQuoteError(quoteResponse.error.message);
+        } else if (quoteResponse?.data) {
+          setQuote(quoteResponse.data);
           setQuoteError(null);
 
-          if (
-            quoteData?.data?.sender_amount &&
-            quoteData?.data?.receiver_amount
-          ) {
-            const rate =
-              quoteData.data.receiver_amount / quoteData.data.sender_amount;
-            setExchangeRate(rate);
+          if (quoteResponse.data.sender_amount && quoteResponse.data.receiver_amount) {
+            setExchangeRate(quoteResponse.data.receiver_amount / quoteResponse.data.sender_amount);
           }
         }
       } catch (error) {
         console.error('Error fetching quote:', error);
       } finally {
         setQuoteLoading(false);
-        setLoading(false);
       }
     };
 
@@ -69,26 +53,24 @@ const BankAccountDetail: React.FC<BankAccountDetailProps> = ({
 
   const renderAccountFields = () => {
     const fields = accountFieldsMapping[bankAccount.type] || [];
+    const record = bankAccount as unknown as Record<string, string | null>;
 
     return fields.map((field, index) => (
       <div key={field.name} className="flex">
         {index === 0 ? (
           <div>
             <h4 className="text-lg font-semibold text-gray-700 border-b-1 mb-1">
-              {bankAccount[field.name] || 'N/A'}
+              {record[field.name] || 'N/A'}
             </h4>
             <p className="text-gray-500 text-md">
-              Type:{' '}
-              <span className="text-gray-700 font-semibold">
-                {bankAccount.type}
-              </span>
+              Type: <span className="text-gray-700 font-semibold">{bankAccount.type}</span>
             </p>
           </div>
         ) : (
           <p className="text-gray-500 text-md">
             {field.label}:{' '}
             <span className="text-gray-700 font-semibold">
-              {bankAccount[field.name] || 'N/A'}
+              {record[field.name] || 'N/A'}
             </span>
           </p>
         )}
@@ -96,11 +78,9 @@ const BankAccountDetail: React.FC<BankAccountDetailProps> = ({
     ));
   };
 
-  const { country, currency, flag } = getBankAccountDetails(bankAccount.type);
+  const { currency, flag } = getBankAccountDetails(bankAccount.type);
 
-  // Callback for when ConfirmWithdrawal finishes (either success or failure)
   const handleConfirmComplete = () => {
-    // Close both overlays, and route back to the ReceiverDashboard.
     setShowConfirmOverlay(false);
     onClose();
   };
@@ -115,14 +95,12 @@ const BankAccountDetail: React.FC<BankAccountDetailProps> = ({
           <IoIosCloseCircleOutline size={24} />
         </button>
 
-        <h3 className="text-xl font-thin text-gray-700 mb-4">
-          Bank Account Details
-        </h3>
+        <h3 className="text-xl font-thin text-gray-700 mb-4">Bank Account Details</h3>
 
         <div className="mb-4">{renderAccountFields()}</div>
 
         <div className="mt-4">
-          <h2>Withdraw Amount: </h2>
+          <h2>Withdraw Amount:</h2>
           <p className="text-xl">${totalAmount}</p>
         </div>
 
@@ -134,19 +112,12 @@ const BankAccountDetail: React.FC<BankAccountDetailProps> = ({
         ) : (
           quote && (
             <div>
-              <h4 className="text-md font-semibold mt-4">
-                Rate you will receive:
-              </h4>
+              <h4 className="text-md font-semibold mt-4">Rate you will receive:</h4>
               <p className="text-xl font-bold">
-                $
-                {quote.receiver_amount
-                  ? (quote.receiver_amount / 100).toFixed(2)
-                  : 'N/A'}{' '}
-                {flag}
+                ${quote.receiver_amount ? (quote.receiver_amount / 100).toFixed(2) : 'N/A'} {flag}
               </p>
               <p className="text-gray-500">
-                Rate: {exchangeRate ? exchangeRate.toFixed(3) : 'N/A'}{' '}
-                {currency}
+                Rate: {exchangeRate ? exchangeRate.toFixed(3) : 'N/A'} {currency}
               </p>
             </div>
           )
@@ -165,7 +136,6 @@ const BankAccountDetail: React.FC<BankAccountDetailProps> = ({
           Proceed To Confirmation
         </button>
 
-        {/* Overlay the ConfirmWithdrawal component when requested */}
         {showConfirmOverlay && quote && (
           <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-60">
             <ConfirmWithdrawal

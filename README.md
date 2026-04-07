@@ -1,6 +1,8 @@
 # Off-Ramp Widget
 
-The **Off-Ramp Widget** seamlessly bridges traditional banking and crypto, enabling users to convert stablecoins into fiat with ease. Designed to leverage Privy’s email OTP wallets, this lightweight and configurable widget offers a user-friendly experience—ideal for non-crypto users who prefer simple email-based authentication. It supports streamlined KYC processes for users in Mexico and Argentina, with an enhanced verification flow available for US customers.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A reusable React widget that bridges traditional banking and crypto, enabling users to convert stablecoins into fiat. Designed to leverage Privy's email OTP wallets, this lightweight and configurable widget offers a user-friendly experience ideal for non-crypto users who prefer simple email-based authentication. It supports streamlined KYC processes for users in Mexico, Argentina, and Brazil, with an enhanced verification flow available for US customers.
 
 **Currently Using Base-Sepolia Testnet**
 
@@ -9,9 +11,6 @@ The **Off-Ramp Widget** seamlessly bridges traditional banking and crypto, enabl
 - [Blindpay](https://blindpay.com/)
 - [Privy](https://www.privy.io/)
 
-<br/>
-
-
 ## Key Features
 
 - **Seamless Fiat Off-Ramp:** Convert stablecoins into fiat money efficiently.
@@ -19,93 +18,36 @@ The **Off-Ramp Widget** seamlessly bridges traditional banking and crypto, enabl
 - **Customizable and Lightweight:** Easily integrate and configure the widget for your application.
 - **Flexible Payout Options:** Support multiple bank account types and delivery methods.
 
-<br/>
-
-
-## Payout Options and Estimated Arrival Times
-
-| **Type**              | **Country**           | **Estimated Time of Arrival** |
-| --------------------- | --------------------- | ----------------------------- |
-| **ach**               | 🇺🇸 United States      | ~2 business days              |
-| **wire**              | 🇺🇸 United States      | ~1 business day               |
-| **pix**               | 🇧🇷 Brazil            | ~5 minutes                    |
-| **spei_bitso**        | 🇲🇽 Mexico            | ~5 minutes                    |
-| **ach_cop_bitso**     | 🇨🇴 Colombia          | ~1 business day               |
-| **transfers_bitso**   | 🇦🇷 Argentina         | ~5 minutes                    |
-
-
-<br/>
-
-## Compliance and KYC Requirements
-
-Every receiver must complete a KYC process to verify their identity. The widget supports two levels of verification: **KYC Light** and **KYC Standard**. Please note that **KYC Light** is not available for payouts in the United States.
-
-<br/>
-
-
-### KYC Light
-
-*Applicable for individual receivers (except in the US).*
-
-- First Name
-- Last Name
-- Date of Birth
-- Email
-- Country
-
-<br/>
-
-
-### KYC Standard
-
-*Includes all fields from KYC Light plus additional details.*
-
-- First Name
-- Last Name
-- Date of Birth
-- Email
-- Country
-- Tax ID (government ID number)
-- Address 1
-- City
-- State/Province/Region
-- Postal Code
-- **ID Document** – Type (passport, ID card, driver's license)
-- **ID Document** – Front
-- **ID Document** – Back
-
-
-\* Fields marked with an asterisk (*) are optional depending on your regulatory requirements.
-
-
-<br/>
-
-
 ## Preview
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687285/Screenshot_2025-02-16_at_12.27.59_AM_rxuqwo.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687306/Screenshot_2025-02-16_at_12.28.21_AM_gcfnyt.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687337/Screenshot_2025-02-16_at_12.28.52_AM_acfqwv.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687353/Screenshot_2025-02-16_at_12.29.09_AM_ne3lhy.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077552/Screenshot_2025-02-20_at_12.52.26_PM_ayceaf.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077650/Screenshot_2025-02-20_at_12.54.04_PM_qfgutp.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687464/Screenshot_2025-02-16_at_12.31.01_AM_zg7zp4.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077438/Screenshot_2025-02-20_at_12.47.39_PM_lyaxmn.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077397/Screenshot_2025-02-20_at_12.47.55_PM_bm59s6.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
-<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077386/Screenshot_2025-02-20_at_12.48.55_PM_mihbbk.png" alt="Drag Racing" style="width: 50%; max-width: 250px;">
 
-<br/>
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687285/Screenshot_2025-02-16_at_12.27.59_AM_rxuqwo.png" alt="Widget start screen" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687306/Screenshot_2025-02-16_at_12.28.21_AM_gcfnyt.png" alt="KYC country selection" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687337/Screenshot_2025-02-16_at_12.28.52_AM_acfqwv.png" alt="KYC verification form" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687353/Screenshot_2025-02-16_at_12.29.09_AM_ne3lhy.png" alt="KYC form fields" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077552/Screenshot_2025-02-20_at_12.52.26_PM_ayceaf.png" alt="Receiver dashboard with bank accounts" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077650/Screenshot_2025-02-20_at_12.54.04_PM_qfgutp.png" alt="Bank account details and withdrawal quote" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1739687464/Screenshot_2025-02-16_at_12.31.01_AM_zg7zp4.png" alt="Add bank account form" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077438/Screenshot_2025-02-20_at_12.47.39_PM_lyaxmn.png" alt="Payout confirmation screen" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077397/Screenshot_2025-02-20_at_12.47.55_PM_bm59s6.png" alt="Transaction approval prompt" style="width: 50%; max-width: 250px;">
+<img src="https://res.cloudinary.com/dw8cdzxiu/image/upload/v1740077386/Screenshot_2025-02-20_at_12.48.55_PM_mihbbk.png" alt="Transaction confirmation result" style="width: 50%; max-width: 250px;">
 
-# How to Use
+## Installation
 
-Below are the steps to set up your application using Privy and Smart Wallets with the Offramp widget.
+```bash
+npm install offramp-widget
+```
 
----
+## Quick Start
 
-## Step 1: Ensure Your Environment Variable is Set
+### Step 1: Set Your Environment Variable
 
-Make sure you have the `NEXT_PUBLIC_PRIVY_APP_ID` environment variable configured. This variable initializes the Privy authentication within your application.
+Copy the example environment file and fill in your Privy App ID:
 
-> **Tip:** Verify that your environment file (e.g., `.env.local`) includes:
+```bash
+cp .env.example .env.local
+```
+
+> Your `.env.local` should contain:
 >
 > ```env
 > NEXT_PUBLIC_PRIVY_APP_ID=your_privy_app_id_here
@@ -113,7 +55,7 @@ Make sure you have the `NEXT_PUBLIC_PRIVY_APP_ID` environment variable configure
 
 ---
 
-## Step 2: Create You Privy Provider Wrappers
+### Step 2: Create Your Privy Provider Wrappers
 
 Your application must be wrapped with both the `PrivyProvider` and the `SmartWalletsProvider`. This ensures that the Privy authentication context and smart wallets functionality are available throughout your app.
 
@@ -124,14 +66,12 @@ import { PrivyProvider } from '@privy-io/react-auth';
 import { SmartWalletsProvider } from '@privy-io/react-auth/smart-wallets';
 import { base } from 'viem/chains';
 
-export default function MyPrivyProvider({ children }: { children: React.ReactNode; }) {
+export default function MyPrivyProvider({ children }: { children: React.ReactNode }) {
   const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
 
   if (!appId) {
     throw new Error('Missing NEXT_PUBLIC_PRIVY_APP_ID environment variable');
   }
-
-  console.log('Privy App ID:', appId);
 
   return (
     <PrivyProvider
@@ -143,8 +83,8 @@ export default function MyPrivyProvider({ children }: { children: React.ReactNod
           accentColor: '#000000',
         },
         embeddedWallets: {
-          createOnLogin: 'users-without-wallets'
-        }
+          createOnLogin: 'users-without-wallets',
+        },
       }}
     >
       <SmartWalletsProvider>{children}</SmartWalletsProvider>
@@ -155,29 +95,22 @@ export default function MyPrivyProvider({ children }: { children: React.ReactNod
 
 ---
 
-## Step 3: Use the Privy Provider in Your RootLayout
+### Step 3: Wrap Your Root Layout
 
-Ensure that your application’s root layout wraps its children with `MyPrivyProvider` so that the Privy authentication context is available throughout your app.
+Ensure that your application's root layout wraps its children with `MyPrivyProvider` so that the Privy authentication context is available throughout your app.
 
 ```tsx
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import MyPrivyProvider from "@/providers/PrivyProvider";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import MyPrivyProvider from '@/providers/PrivyProvider';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Create Next App",
-  description: "Generated by create next app",
+  title: 'My App',
+  description: 'Crypto off-ramp powered by BlindPay',
 };
 
 export default function RootLayout({
@@ -190,22 +123,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black`}
       >
-        <MyPrivyProvider>
-          {children}
-        </MyPrivyProvider>
+        <MyPrivyProvider>{children}</MyPrivyProvider>
       </body>
     </html>
   );
 }
 ```
 
-## Step 4: Pass the Smart Wallets Client to Your Widget
+---
 
-Within your component that you will be using Offramp-Widget, use the `useSmartWallets` hook to obtain the smart wallets client and pass it to your widget. This allows the widget to interact with the user's smart wallet.
+### Step 4: Pass the Smart Wallets Client to Your Widget
+
+Use the `useSmartWallets` hook to obtain the smart wallets client and pass it to the widget. This allows the widget to interact with the user's smart wallet for transaction signing.
 
 ```jsx
 'use client';
-import React from 'react';
+
 import { OfframpWidget } from 'offramp-widget';
 import { useSmartWallets } from '@privy-io/react-auth/smart-wallets';
 
@@ -214,27 +147,47 @@ export default function Widget() {
 
   return (
     <div className="w-full h-screen flex justify-center items-center bg-white">
-      <main className="text-black">
-        <OfframpWidget
-          apiKey={'myapikey'}
-          instanceId={'my_blindpay_instance_id'}
-          baseUrl={'blindpay api baseUrl'}
-          privySmartClient={client}
-        />
-      </main>
+      <OfframpWidget
+        apiKey="your_blindpay_api_key"
+        instanceId="your_blindpay_instance_id"
+        baseUrl="https://api.blindpay.com"
+        privySmartClient={client}
+      />
     </div>
   );
 }
 ```
 
----
+## Payout Options
 
-> **Sidenote:** Currently using a local server to hit API endpoints due to a CORS configuration issue on the current BlindPay API version -- this will be fixed soon.
+| Type                | Country              | Estimated Arrival  |
+| ------------------- | -------------------- | ------------------ |
+| **ach**             | 🇺🇸 United States   | ~2 business days   |
+| **wire**            | 🇺🇸 United States   | ~1 business day    |
+| **pix**             | 🇧🇷 Brazil          | ~5 minutes         |
+| **spei_bitso**      | 🇲🇽 Mexico          | ~5 minutes         |
+| **ach_cop_bitso**   | 🇨🇴 Colombia        | ~1 business day    |
+| **transfers_bitso** | 🇦🇷 Argentina       | ~5 minutes         |
 
+## KYC Requirements
 
+Every receiver must complete a KYC process to verify their identity. The widget supports two levels of verification: **KYC Light** and **KYC Standard**. KYC Light is not available for payouts in the United States.
 
+### KYC Light
 
+*For individual receivers (except US).*
 
+- First Name, Last Name, Date of Birth, Email, Country
 
+### KYC Standard
 
+*Includes all KYC Light fields plus:*
 
+- Tax ID (government ID number)
+- Phone Number
+- Address, City, State/Province/Region, Postal Code
+- ID Document — Type (passport, ID card, driver's license), Front image
+
+## License
+
+[MIT](LICENSE)

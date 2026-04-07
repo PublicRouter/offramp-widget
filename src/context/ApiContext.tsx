@@ -1,44 +1,29 @@
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect
-} from 'react';
+import { createContext, useContext, type ReactNode, useState, useEffect } from 'react';
 import Api from '../api';
 
-// Define the context type
 interface ApiContextType {
   api: Api | null;
-  initialized: boolean; // Flag to track if the API has been initialized
+  initialized: boolean;
 }
 
-// Create the context
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
-// Provider component to wrap around your app and provide the API context
-export const ApiProvider = ({
-  baseUrl,
-  instanceId,
-  apiKey,
-  children
-}: {
+interface ApiProviderProps {
   baseUrl: string;
   instanceId: string;
   apiKey: string;
   children: ReactNode;
-}) => {
-  const [api, setApi] = useState<Api | null>(null); // Initialize `api` as `null`
-  const [initialized, setInitialized] = useState(false); // Flag to track initialization
+}
+
+export const ApiProvider = ({ baseUrl, instanceId, apiKey, children }: ApiProviderProps) => {
+  const [api, setApi] = useState<Api | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (!api) {
-      console.log('Initializing API with', baseUrl, instanceId, apiKey); // Debug log to see initialization
-      const apiInstance = Api.getInstance(baseUrl, instanceId, apiKey); // Initialize only once
-      setApi(apiInstance);
-      setInitialized(true); // Once the API is set, mark as initialized
-    }
-  }, [baseUrl, instanceId, apiKey, api]);
+    const instance = new Api(baseUrl, instanceId, apiKey);
+    setApi(instance);
+    setInitialized(true);
+  }, [baseUrl, instanceId, apiKey]);
 
   return (
     <ApiContext.Provider value={{ api, initialized }}>
@@ -47,8 +32,7 @@ export const ApiProvider = ({
   );
 };
 
-// Custom hook to access the API context
-export const useApi = (): { api: Api | null; initialized: boolean } => {
+export const useApi = () => {
   const context = useContext(ApiContext);
   if (!context) {
     throw new Error('useApi must be used within an ApiProvider');

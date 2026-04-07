@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { useApi } from '../../context/ApiContext';
+import type { BankAccount } from '../../types';
 import BankAccountView from '../BankAccountView';
 import AddBankAccountForm from './AddBankAccountForm';
 import RemoveBankAccountForm from './RemoveBankAccountForm';
@@ -8,95 +9,103 @@ import BankAccountDetail from './BankAccountDetail';
 import Spinner from '../common/Spinner';
 
 const ReceiverDashboard = () => {
-  const { data } = useGlobalContext();
+  const { state } = useGlobalContext();
   const { api } = useApi();
-  const [bankAccounts, setBankAccounts] = useState<any[]>([]);
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
-  const [selectedBankAccount, setSelectedBankAccount] = useState<any | null>(
-    null
-  );
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [walletBalance, setWalletBalance] = useState<string>('0');
+  const [selectedBankAccount, setSelectedBankAccount] = useState<BankAccount | null>(null);
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [walletBalance, setWalletBalance] = useState('0');
 
-  const fetchBankAccounts = async () => {
+  const fetchBankAccounts = useCallback(async () => {
+    if (!state.receiver?.id) return;
     setLoading(true);
     try {
-      const bankAccountsResponse = await api?.getBankAccounts(data.receiver.id);
-      const bankAccounts = bankAccountsResponse.data;
-      setBankAccounts(bankAccounts);
-    } catch (err) {
+      const response = await api?.getBankAccounts(state.receiver.id);
+      if (response?.data) {
+        setBankAccounts(response.data);
+      }
+    } catch {
       setError('Error fetching bank accounts');
     } finally {
       setLoading(false);
     }
-  };
+  }, [api, state.receiver?.id]);
 
-  // Fetch the USDB wallet balance from our backend endpoint.
-  const fetchWalletBalance = async (smartAddress: string) => {
+  const fetchWalletBalance = useCallback(async (smartAddress: string) => {
     try {
-      // Replace process.env.REACT_APP_SEPOLIA_RPC_URL with your actual RPC provider URL
-      const data = await api?.getWalletBalance(smartAddress);
-
-        // const data = await response.json();
-        console.log("wallet balance data: ", data)
-      if (data.balance) {
-        setWalletBalance(data.balance);
-      } else if (data.error) {
-        console.error('Error fetching wallet balance:', data.error);
+      const response = await api?.getWalletBalance(smartAddress);
+      if (response?.balance) {
+        setWalletBalance(response.balance);
       }
-    } catch (error) {
-      console.error('Error fetching wallet balance:', error);
+    } catch (err) {
+      console.error('Error fetching wallet balance:', err);
     }
-  };
+  }, [api]);
 
   useEffect(() => {
-    if (!data.receiver) return;
+    if (!state.receiver) return;
     fetchBankAccounts();
-  }, [api, data.receiver]);
+  }, [state.receiver, fetchBankAccounts]);
 
-  // On mount, fetch the wallet balance using the smart wallet address from localStorage.
   useEffect(() => {
     const smartAddress = localStorage.getItem('smartAddress');
     if (smartAddress) {
       fetchWalletBalance(smartAddress);
     }
-  }, []);
-
-  const handleAddButtonClick = () => {
-    setIsAdding(true);
-    setIsRemoving(false);
-  };
-
-  const handleRemoveButtonClick = () => {
-    setIsRemoving(true);
-    setIsAdding(false);
-  };
+  }, [fetchWalletBalance]);
 
   const handleCancel = () => {
     setIsAdding(false);
     setIsRemoving(false);
-    setSelectedBankAccount(null); // Reset the selected bank account
+    setSelectedBankAccount(null);
   };
 
-  const handleBankAccountClick = (bankAccount: any) => {
+  const handleBankAccountClick = (bankAccount: BankAccount) => {
+    const amount = parseFloat(withdrawAmount);
+    if (!withdrawAmount || isNaN(amount) || amount <= 0) {
+      setError('Enter a valid withdrawal amount before selecting a bank account');
+      return;
+    }
+    setError(null);
     setSelectedBankAccount(bankAccount);
-    setTotalAmount(20); // !! hardcoded example (temporary)
   };
+
+  if (!state.receiver) return null;
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-lg rounded-xl">
-      <header className="text-center  mb-4 mt-2">
+      <header className="text-center mb-4 mt-2">
         <p className="text-gray-600">Welcome back,</p>
         <p className="text-3xl font-semibold text-gray-800">
-          {data.receiver.first_name} {data.receiver.last_name}
+          {state.receiver.first_name} {state.receiver.last_name}
         </p>
         <p className="text-gray-600 mt-2">
           <strong>Balance:</strong> {walletBalance}
         </p>
       </header>
+
+      <div className="mb-4">
+        <label className="block text-gray-600 text-sm mb-1">
+          Withdrawal Amount (USD)
+        </label>
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          value={withdrawAmount}
+          onChange={(e) => {
+            setWithdrawAmount(e.target.value);
+            setError(null);
+          }}
+          placeholder="Enter amount"
+          className="w-full p-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-black"
+        />
+      </div>
+
       <h3 className="text-xl text-center text-gray-600 mb-3">
         Your Bank Accounts
       </h3>
@@ -114,22 +123,21 @@ const ReceiverDashboard = () => {
       <BankAccountView
         loading={loading}
         bankAccounts={bankAccounts}
-        onAddClick={handleAddButtonClick}
-        onRemoveClick={handleRemoveButtonClick}
+        onAddClick={() => { setIsAdding(true); setIsRemoving(false); }}
+        onRemoveClick={() => { setIsRemoving(true); setIsAdding(false); }}
         onBankAccountClick={handleBankAccountClick}
       />
 
-      {/* Conditional rendering of forms and details */}
       {isAdding && (
         <AddBankAccountForm
-          receiverId={data.receiver.id}
+          receiverId={state.receiver.id}
           onSubmit={fetchBankAccounts}
           onCancel={handleCancel}
         />
       )}
       {isRemoving && (
         <RemoveBankAccountForm
-          receiverId={data.receiver.id}
+          receiverId={state.receiver.id}
           bankAccounts={bankAccounts}
           onSubmit={fetchBankAccounts}
           onCancel={handleCancel}
@@ -139,7 +147,7 @@ const ReceiverDashboard = () => {
       {selectedBankAccount && (
         <BankAccountDetail
           bankAccount={selectedBankAccount}
-          totalAmount={totalAmount}
+          totalAmount={parseFloat(withdrawAmount)}
           onClose={handleCancel}
         />
       )}

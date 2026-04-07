@@ -1,56 +1,29 @@
-import React, { useState } from 'react';
 import { CiCirclePlus, CiCircleMinus } from 'react-icons/ci';
-
-interface BankAccount {
-  id: string;
-  type: string;
-  name: string;
-  pix_key: string | null;
-  beneficiary_name: string | null;
-  routing_number: string | null;
-  account_number: string | null;
-  account_type: string | null;
-  account_class: string | null;
-  address_line_1: string | null;
-  address_line_2: string | null;
-  city: string | null;
-  state_province_region: string | null;
-  country: string | null;
-  postal_code: string | null;
-  blockchain_address: {
-    sepolia: string | null;
-    arbitrum_sepolia: string | null;
-    base_sepolia: string | null;
-    polygon_amoy: string | null;
-    base: string | null;
-    arbitrum: string | null;
-    polygon: string | null;
-  };
-}
+import type { BankAccount } from '../types';
 
 interface BankAccountViewProps {
   bankAccounts: BankAccount[];
   onAddClick: () => void;
   onRemoveClick: () => void;
   loading: boolean;
-  onBankAccountClick: (bankAccount: any) => void;
+  onBankAccountClick: (bankAccount: BankAccount) => void;
 }
 
-const BankAccountView: React.FC<BankAccountViewProps> = ({
+const BankAccountView = ({
   bankAccounts,
   onAddClick,
   onRemoveClick,
   loading,
-  onBankAccountClick
-}) => {
+  onBankAccountClick,
+}: BankAccountViewProps) => {
   return (
     <section className="space-y-6 w-full">
-      {!loading && bankAccounts && bankAccounts.length === 0 && (
+      {!loading && bankAccounts.length === 0 && (
         <p className="text-center text-gray-500 border px-2 py-1">
           No bank accounts found.
         </p>
       )}
-      {bankAccounts && bankAccounts.length > 0 && (
+      {bankAccounts.length > 0 && (
         <div className="space-y-4">
           {bankAccounts.map((account) => (
             <div
@@ -60,12 +33,8 @@ const BankAccountView: React.FC<BankAccountViewProps> = ({
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <strong className="text-md text-gray-700">
-                    {account.name}
-                  </strong>
-                  <p className="text-sm text-gray-500">
-                    Account Type: {account.type}
-                  </p>
+                  <strong className="text-md text-gray-700">{account.name}</strong>
+                  <p className="text-sm text-gray-500">Account Type: {account.type}</p>
                 </div>
                 <button
                   className="text-red-700 hover:text-red-400 px-2 py-1 rounded-md font-semibold text-md hover:cursor-pointer hover:scale-[1.05]"

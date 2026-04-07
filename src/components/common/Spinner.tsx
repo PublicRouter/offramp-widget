@@ -1,5 +1,3 @@
-// /src/components/common/Spinner.tsx
-
 export default function Spinner() {
   return (
     <svg

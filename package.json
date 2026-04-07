@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "A reusable UI widget for BlindPay integration",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md"
   ],
   "engines": {
-    "node": ">=12.4"
+    "node": ">=18"
   },
   "scripts": {
     "start": "rollup --config rollup.config.js -w",
@@ -17,25 +18,24 @@
     "lint": "eslint --max-warnings=0"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.0.6",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.2",
     "react-icons": "^5.4.0",
-    "tailwindcss": "^4.0.6",
     "viem": "^2.23.3"
   },
   "peerDependencies": {
-    "blindpay": "^1.0.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.6",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.2",
     "rollup": "^2.79.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.34.1",
+    "tailwindcss": "^4.0.6",
     "typescript": "^5.0.4"
   },
   "keywords": [

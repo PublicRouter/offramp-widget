@@ -1,33 +1,20 @@
-// /src/index.tsx
 import { GlobalProvider } from './context/GlobalContext';
 import { ApiProvider } from './context/ApiContext';
 import { Widget } from './components';
-import GlobalContextInitializer from './context/utils/GlobalContextInitializer';
+import type { SmartWalletClient } from './types';
 import './index.css';
 
-interface OfframpWidgetProps {
+export interface OfframpWidgetProps {
   apiKey: string;
   instanceId: string;
   baseUrl: string;
-  privySmartClient: any;
+  privySmartClient: SmartWalletClient | null;
 }
 
-// Main entry point for the package
-function OfframpWidget({
-  apiKey,
-  instanceId,
-  baseUrl,
-  privySmartClient
-}: OfframpWidgetProps) {
+function OfframpWidget({ apiKey, instanceId, baseUrl, privySmartClient }: OfframpWidgetProps) {
   return (
-    <GlobalProvider>
-      {/* Initialize global context with privySmartClient */}
-      <GlobalContextInitializer privySmartClient={privySmartClient} />
-      <ApiProvider
-        instanceId={instanceId}
-        baseUrl={baseUrl}
-        apiKey={apiKey}
-      >
+    <GlobalProvider privySmartClient={privySmartClient}>
+      <ApiProvider instanceId={instanceId} baseUrl={baseUrl} apiKey={apiKey}>
         <Widget />
       </ApiProvider>
     </GlobalProvider>
@@ -35,3 +22,4 @@ function OfframpWidget({
 }
 
 export { OfframpWidget };
+export type { SmartWalletClient };
